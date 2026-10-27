@@ -1,0 +1,78 @@
+# Broker de mensagens compartilhado pela solucao (base: Lab 07).
+# AMQP em rabbitmq:5672 | painel em rabbitmq:15672
+# Credenciais apenas didaticas.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rabbitmq-auth
+type: Opaque
+stringData:
+  username: cotei
+  password: cotei-lab
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rabbitmq-data
+spec:
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:4.1-management
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef: {name: rabbitmq-auth, key: username}
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef: {name: rabbitmq-auth, key: password}
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/rabbitmq
+          readinessProbe:
+            exec:
+              command: ["rabbitmq-diagnostics", "-q", "ping"]
+            initialDelaySeconds: 15
+            periodSeconds: 15
+            timeoutSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests: {cpu: 100m, memory: 256Mi}
+            limits: {memory: 768Mi}
+      volumes:
+        - name: data
+          persistentVolumeClaim: {claimName: rabbitmq-data}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+spec:
+  type: ClusterIP
+  selector: {app: rabbitmq}
+  ports:
+    - {name: amqp, port: 5672, targetPort: 5672}
+    - {name: management, port: 15672, targetPort: 15672}

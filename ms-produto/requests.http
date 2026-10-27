@@ -1,0 +1,69 @@
+### Listar produtos (espera 200 OK, [] na primeira execucao)
+GET http://localhost:8080/produtos
+Accept: application/json
+
+### Criar produto (espera 201 Created)
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "nome": "iPhone 15 128GB",
+  "marca": "Apple",
+  "categoria": "SMARTPHONE",
+  "ean": "7891234567890",
+  "descricao": "Tela 6.1 polegadas, chip A16 Bionic",
+  "ativo": true
+}
+
+### Criar um segundo produto (espera 201 Created)
+POST http://localhost:8080/produtos
+Content-Type: application/json
+
+{
+  "nome": "Galaxy S24 256GB",
+  "marca": "Samsung",
+  "categoria": "SMARTPHONE",
+  "ean": "7899876543210",
+  "descricao": "Tela 6.2 polegadas, Snapdragon 8 Gen 3",
+  "ativo": true
+}
+
+### Buscar produto 1 (espera 200 OK)
+GET http://localhost:8080/produtos/1
+Accept: application/json
+
+### Atualizar produto 1 (espera 200 OK)
+PUT http://localhost:8080/produtos/1
+Content-Type: application/json
+
+{
+  "nome": "iPhone 15 256GB",
+  "marca": "Apple",
+  "categoria": "SMARTPHONE",
+  "ean": "7891234567890",
+  "descricao": "Versao de 256GB, chip A16 Bionic",
+  "ativo": true
+}
+
+### Excluir produto 1 (espera 204 No Content)
+DELETE http://localhost:8080/produtos/1
+
+### Buscar produto inexistente (espera 404 Not Found)
+GET http://localhost:8080/produtos/999
+Accept: application/json
+
+### Atualizar produto inexistente (espera 404 Not Found)
+PUT http://localhost:8080/produtos/999
+Content-Type: application/json
+
+{
+  "nome": "Produto que nao existe",
+  "marca": "Nenhuma",
+  "categoria": "OUTROS",
+  "ean": "0000000000000",
+  "descricao": "Deve retornar 404",
+  "ativo": false
+}
+
+### Excluir produto inexistente (espera 404 Not Found)
+DELETE http://localhost:8080/produtos/999

@@ -1,0 +1,2 @@
+# Pacote reservado para a camada de persistencia (aula de banco de dados).
+# Nesta versao os produtos ficam em memoria dentro de ProdutoService.

@@ -1,0 +1,22 @@
+# Build
+target/
+build/
+out/
+dist/
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+
+# IDEs
+.idea/
+*.iml
+*.iws
+.vscode/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Variaveis locais
+.env

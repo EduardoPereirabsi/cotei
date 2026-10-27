@@ -1,0 +1,53 @@
+# ms-produto: catalogo canonico de produtos (Java / Spring Boot / MySQL).
+# 3 replicas: e o servico consultado por REST pelos demais, e o que demonstra
+# a escalabilidade horizontal (GET /produto/instance mostra qual pod respondeu).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-produto
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ms-produto
+  template:
+    metadata:
+      labels:
+        app: ms-produto
+    spec:
+      containers:
+        - name: ms-produto
+          image: eduardo1112/ms-produto:1.1.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: /produto
+            - name: DB_HOST
+              value: mysql-produto
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_NAME
+              value: produtodb
+            - name: DB_USER
+              value: root
+            - name: DB_PASSWORD
+              value: root
+          readinessProbe:
+            httpGet:
+              path: /produto/produtos
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-produto
+spec:
+  selector:
+    app: ms-produto
+  ports:
+    - port: 8080
+      targetPort: 8080
