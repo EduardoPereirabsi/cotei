@@ -1,8 +1,4 @@
-/**
- * Especificacao OpenAPI do ms-avaliacao.
- * O servidor e relativo ("/avaliacao"): o Swagger chama a API no mesmo host e porta
- * em que foi aberto, entao o "Try it out" funciona no Minikube e no EKS.
- */
+// Servidor relativo: o "Try it out" chama a API no mesmo endereco em que o Swagger foi aberto.
 const avaliacao = {
   type: "object",
   properties: {

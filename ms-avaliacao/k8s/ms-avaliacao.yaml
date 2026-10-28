@@ -1,5 +1,3 @@
-# ms-avaliacao: avaliacoes de produtos (TypeScript / Express / MongoDB).
-# REST: consulta o ms-produto para validar o produto de cada avaliacao.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

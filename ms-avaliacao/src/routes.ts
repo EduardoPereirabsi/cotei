@@ -16,7 +16,6 @@ router.get("/health", (_req, res) => {
   }
 });
 
-/** Nome do pod que respondeu: evidencia de balanceamento entre replicas. */
 router.get("/instance", (_req, res) => {
   res.json({ pod: os.hostname() });
 });

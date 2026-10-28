@@ -1,4 +1,3 @@
-# Banco exclusivo do ms-avaliacao (Database per Service) - MongoDB.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
