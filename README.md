@@ -71,12 +71,19 @@ minikube addons enable ingress
 
 kubectl apply -f k8s/rabbitmq.yaml
 kubectl apply -f ms-produto/k8s/
+kubectl apply -f ms-loja/k8s/
+kubectl apply -f ms-avaliacao/k8s/
+kubectl apply -f ms-coletor/k8s/
+kubectl apply -f ms-alerta/k8s/
 kubectl apply -f k8s/ingress.yaml
 
 kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 80:80
 ```
 
-Swagger do `ms-produto`: http://localhost/produto/swagger-ui/index.html
+Cada serviço publica sua documentação sob o próprio prefixo: `/produto/swagger-ui/index.html`,
+`/loja/swagger-ui/index.html`, `/avaliacao/docs`, `/coletor/docs` e `/alerta/swagger-ui/index.html`.
+
+As imagens locais são construídas com `minikube image build` dentro de cada pasta (ver o README de cada serviço).
 
 O roteiro do Amazon EKS entra aqui após o Lab 06.
 
@@ -84,14 +91,14 @@ O roteiro do Amazon EKS entra aqui após o Lab 06.
 
 | Requisito | Onde é atendido | Situação |
 |---|---|---|
-| Um microsserviço por integrante | tabela de serviços acima | 4 de 5 |
+| Um microsserviço por integrante | tabela de serviços acima | ✓ 5 de 5 |
 | Duas linguagens | Java + Python + TypeScript | ✓ Java + TypeScript + Python |
 | Dois SGBDs | MySQL + PostgreSQL + MongoDB | ✓ MySQL + PostgreSQL + MongoDB |
-| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto`, `ms-loja`, `ms-avaliacao`, `ms-coletor` ✓ |
-| Database per Service | um banco por serviço, acessado pelo seu Service | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
-| Comunicação síncrona (REST) | `ms-loja`, `ms-avaliacao` e `ms-alerta` → `ms-produto` | ✓ `ms-loja` e `ms-avaliacao` → `ms-produto` |
-| Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` | ✓ `ms-coletor` → `ms-loja`; `ms-alerta` pendente |
+| Conteinerização | Dockerfile em cada `ms-*` | ✓ os cinco serviços |
+| Database per Service | um banco por serviço, acessado pelo seu Service | ✓ os quatro serviços com estado |
+| Comunicação síncrona (REST) | `ms-loja`, `ms-avaliacao`, `ms-alerta` e `ms-coletor` → `ms-produto` | ✓ |
+| Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` em fanout | ✓ `ms-coletor` → `ms-loja` e `ms-alerta` |
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
-| Ingress | `k8s/ingress.yaml` | `ms-produto`, `ms-loja`, `ms-avaliacao`, `ms-coletor` ✓ |
+| Ingress | `k8s/ingress.yaml` | ✓ os cinco serviços |
 | Amazon EKS | — | pendente (Lab 06) |
