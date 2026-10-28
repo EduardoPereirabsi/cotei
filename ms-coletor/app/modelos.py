@@ -15,7 +15,7 @@ class ColetaResultado(BaseModel):
 
 
 class OfertaManual(BaseModel):
-    """Oferta publicada diretamente, sem passar pelas fontes (util para demonstracoes)."""
+    """Oferta publicada diretamente, sem passar pelas fontes."""
     produtoId: PositiveInt = Field(examples=[1])
     loja: str = Field(min_length=1, max_length=100, examples=["Loja Alfa"])
     preco: Decimal = Field(ge=0, max_digits=12, decimal_places=2, examples=[3499.90])

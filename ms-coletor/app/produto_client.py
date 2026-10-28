@@ -1,6 +1,4 @@
-"""Comunicacao sincrona (REST) com o ms-produto: e dele que vem a lista do que coletar.
-No cluster a URL usa o nome do Service: http://ms-produto:8080/produto
-"""
+"""Cliente do catalogo: e do ms-produto que vem a lista do que coletar."""
 import os
 
 import httpx

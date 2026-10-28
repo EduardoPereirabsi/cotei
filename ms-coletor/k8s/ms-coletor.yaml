@@ -1,5 +1,3 @@
-# ms-coletor: coleta ofertas e publica oferta.atualizada (Python / FastAPI / RabbitMQ).
-# Nao tem banco: nao guarda estado, so coleta e publica.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

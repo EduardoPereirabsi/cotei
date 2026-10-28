@@ -1,9 +1,4 @@
-"""ms-coletor: coleta ofertas das lojas parceiras e publica oferta.atualizada.
-
-REST     -> consulta o catalogo no ms-produto para saber o que coletar.
-RabbitMQ -> publica cada oferta no exchange fanout cotei.ofertas; ms-loja e
-            ms-alerta recebem todos os eventos, cada um na sua fila.
-"""
+"""ms-coletor: coleta ofertas das lojas parceiras e publica oferta.atualizada."""
 import asyncio
 import logging
 import os

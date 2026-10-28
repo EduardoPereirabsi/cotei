@@ -1,6 +1,6 @@
 """Fontes de ofertas: um adaptador por loja.
 
-Decisao de projeto: sem scraping real. Cada loja implementa a interface
+Sem scraping real: cada loja implementa a interface
 FonteDeOfertas; as fontes atuais SIMULAM a vitrine de uma loja. Trocar uma
 fonte simulada por uma real e escrever um novo adaptador, sem alterar o
 restante do servico.
