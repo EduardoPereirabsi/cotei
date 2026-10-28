@@ -1,0 +1,43 @@
+# Banco exclusivo do ms-alerta (Database per Service) - PostgreSQL.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-alerta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-alerta
+  template:
+    metadata:
+      labels:
+        app: postgres-alerta
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: alertadb
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "postgres", "-d", "alertadb"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-alerta
+spec:
+  selector:
+    app: postgres-alerta
+  ports:
+    - port: 5432
+      targetPort: 5432

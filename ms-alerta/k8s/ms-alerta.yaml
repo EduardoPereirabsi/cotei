@@ -1,0 +1,62 @@
+# ms-alerta: alertas de preco (Java / Spring Boot / PostgreSQL).
+# RabbitMQ: consome oferta.atualizada pela fila PROPRIA (alerta.oferta-atualizada).
+# REST:     consulta o ms-produto para validar alertas e montar o aviso.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-alerta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ms-alerta
+  template:
+    metadata:
+      labels:
+        app: ms-alerta
+    spec:
+      containers:
+        - name: ms-alerta
+          image: ms-alerta:0.1.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_SERVLET_CONTEXT_PATH
+              value: /alerta
+            - name: DB_HOST
+              value: postgres-alerta
+            - name: DB_NAME
+              value: alertadb
+            - name: DB_USER
+              value: postgres
+            - name: DB_PASSWORD
+              value: postgres
+            - name: RABBITMQ_HOST
+              value: rabbitmq
+            - name: RABBITMQ_USER
+              valueFrom:
+                secretKeyRef: {name: rabbitmq-auth, key: username}
+            - name: RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: rabbitmq-auth, key: password}
+            - name: PRODUTO_URL
+              value: http://ms-produto:8080/produto
+          readinessProbe:
+            httpGet:
+              path: /alerta/alertas
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-alerta
+spec:
+  selector:
+    app: ms-alerta
+  ports:
+    - port: 8080
+      targetPort: 8080
