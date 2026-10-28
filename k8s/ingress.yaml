@@ -1,6 +1,4 @@
-# Entrada HTTP unica da solucao (NGINX Ingress Controller).
-# Cada microsservico responde sob o proprio prefixo (context path / root path),
-# entao nao ha colisao entre os Swaggers: /produto/swagger-ui, /loja/swagger-ui ...
+# Sem rewrite: cada servico ja responde sob o proprio prefixo (context path).
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

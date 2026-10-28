@@ -1,12 +1,10 @@
-# Confere o Cotei implantado no EKS e imprime a evidencia de cada rubrica.
+# Confere o Cotei implantado no EKS, de ponta a ponta, pelo Load Balancer.
 #
-#   .\aws\validar-cotei.ps1             ensaio completo: grava dados de demonstracao
+#   .\aws\validar-cotei.ps1             teste completo: grava dados de teste
 #   .\aws\validar-cotei.ps1 -SemDados   so leitura: confere a infraestrutura
 #
-# O ensaio completo cria um produto novo, uma avaliacao, dois alertas e cinco
+# O teste completo cria um produto novo, uma avaliacao, dois alertas e cinco
 # ofertas, sempre ligados ao produto recem-criado: pode rodar mais de uma vez.
-# No dia da apresentacao use -SemDados, para a demonstracao comecar com os
-# bancos vazios.
 param([switch]$SemDados, [string]$Kubectl = "")
 
 if (-not $Kubectl) {
@@ -28,11 +26,11 @@ function Post($caminho, $corpo) {
     Invoke-RestMethod -Method Post -Uri "$base$caminho" -Body $bytes -ContentType "application/json; charset=utf-8"
 }
 
-Write-Host "`n=== R1/R2: deployments e distribuicao dos pods entre os nos ==="
+Write-Host "`n=== Deployments e distribuicao dos pods entre os nos ==="
 & $Kubectl get deployments
 & $Kubectl get pods -o wide
 
-Write-Host "`n=== R1: um banco por servico ==="
+Write-Host "`n=== Um banco por servico ==="
 & $Kubectl exec deploy/mysql-produto -- mysql -uroot -proot -e "SHOW DATABASES;" 2>$null
 & $Kubectl exec deploy/postgres-loja -- psql -U postgres -lqt 2>$null | Select-String "lojadb"
 & $Kubectl exec deploy/postgres-alerta -- psql -U postgres -lqt 2>$null | Select-String "alertadb"
@@ -40,18 +38,18 @@ Write-Host "`n=== R1: um banco por servico ==="
 
 $alvo = "produtos"
 if (-not $SemDados) {
-    Write-Host "`n=== R2: Ingress pelo Load Balancer (cadastro de produto) ==="
+    Write-Host "`n=== Cadastro de produto pelo Ingress ==="
     $produto = Post "/produto/produtos" @{ nome = "Smartphone Galaxy S26"; marca = "Samsung"; categoria = "SMARTPHONE"; ean = "7891234567890"; descricao = "256 GB"; ativo = $true }
     J $produto
     $id = [int]$produto.id
     $alvo = "produtos/$id"
 }
 
-Write-Host "`n=== R2: balanceamento entre as replicas do ms-produto ==="
+Write-Host "`n=== Balanceamento entre as replicas do ms-produto ==="
 1..15 | ForEach-Object { (Invoke-RestMethod "$base/produto/instance").pod } |
     Group-Object | ForEach-Object { "{0,3}x {1}" -f $_.Count, $_.Name }
 
-Write-Host "`n=== R2: Service Discovery (curl pelo nome, de dentro do cluster) ==="
+Write-Host "`n=== Service Discovery (curl pelo nome, de dentro do cluster) ==="
 & $Kubectl delete pod teste --ignore-not-found --now | Out-Null
 & $Kubectl run teste --image=curlimages/curl --restart=Never -- sleep 600 | Out-Null
 & $Kubectl wait --for=condition=Ready pod/teste --timeout=120s | Out-Null
@@ -59,13 +57,13 @@ Write-Host "`n=== R2: Service Discovery (curl pelo nome, de dentro do cluster) =
 & $Kubectl delete pod teste --now | Out-Null
 
 if (-not $SemDados) {
-    Write-Host "`n`n=== R3 REST: o ms-avaliacao valida o produto no ms-produto ==="
+    Write-Host "`n`n=== REST: o ms-avaliacao valida o produto no ms-produto ==="
     J (Post "/avaliacao/avaliacoes" @{ produtoId = $id; autor = "Maria"; nota = 5; comentario = "Excelente" })
     try { Post "/avaliacao/avaliacoes" @{ produtoId = 999999; autor = "X"; nota = 3 } | Out-Null }
     catch { "produto inexistente -> HTTP $([int]$_.Exception.Response.StatusCode)" }
     J (Invoke-RestMethod "$base/avaliacao/produtos/$id/resumo")
 
-    Write-Host "`n=== R3 RabbitMQ: alertas e ofertas publicadas pelo ms-coletor ==="
+    Write-Host "`n=== RabbitMQ: alertas e ofertas publicadas pelo ms-coletor ==="
     J (Post "/alerta/alertas" @{ produtoId = $id; email = "maria@exemplo.com"; precoAlvo = 2500 })
     J (Post "/alerta/alertas" @{ produtoId = $id; email = "joao@exemplo.com"; precoAlvo = 3000 })
     $ofertas = @(

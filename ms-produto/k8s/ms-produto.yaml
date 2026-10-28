@@ -1,6 +1,3 @@
-# ms-produto: catalogo canonico de produtos (Java / Spring Boot / MySQL).
-# 3 replicas: e o servico consultado por REST pelos demais, e o que demonstra
-# a escalabilidade horizontal (GET /produto/instance mostra qual pod respondeu).
 apiVersion: apps/v1
 kind: Deployment
 metadata:

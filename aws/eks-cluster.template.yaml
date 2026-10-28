@@ -1,4 +1,4 @@
-# Cluster EKS do Cotei para o AWS Academy Learner Lab (base: Back L06).
+# Cluster EKS do Cotei para o AWS Academy Learner Lab.
 #
 # Nao edite os ARNs aqui. O script criar-cluster.ps1 descobre as roles do
 # Academy na conta logada e gera aws/eks-cluster.generated.yaml. Assim o mesmo
