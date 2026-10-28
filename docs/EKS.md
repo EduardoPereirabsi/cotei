@@ -65,6 +65,9 @@ RabbitMQ. No ensaio, tudo passou de primeira: 15 chamadas a `/produto/instance` 
 dividiram em 5/5/5 entre as três réplicas, e os avisos de João e Maria dispararam como
 na tabela do [ms-alerta/README.md](../ms-alerta/README.md).
 
+No dia da apresentação, rode com `-SemDados`: só as conferências de leitura, para a
+demonstração começar com os bancos vazios.
+
 Os comandos abaixo são as mesmas evidências, uma a uma, para mostrar ao vivo.
 
 **R1 — serviços, linguagens e bancos.**
@@ -116,7 +119,7 @@ confere se sobrou algum cluster ou balanceador cobrando.
 | Quando | O quê |
 |---|---|
 | ~1 h antes | iniciar o Learner Lab, colar as credenciais, `criar-cluster.ps1` |
-| ~40 min antes | `implantar-cotei.ps1` e `validar-cotei.ps1` |
+| ~40 min antes | `implantar-cotei.ps1` e `validar-cotei.ps1 -SemDados` |
 | durante | apresentação |
 | logo depois | `apagar-cluster.ps1` |
 

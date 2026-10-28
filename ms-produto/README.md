@@ -105,5 +105,5 @@ docker build -t eduardo1112/ms-produto:1.1.0 .
 kubectl apply -f k8s/
 ```
 
-A imagem `eduardo1112/ms-produto:1.1.0` já está publicada no Docker Hub — é a única do
-Cotei hoje num registry público, pronta para ser puxada pelo EKS.
+A imagem `eduardo1112/ms-produto:1.1.0` está publicada no Docker Hub, pronta para ser
+puxada pelo EKS.
