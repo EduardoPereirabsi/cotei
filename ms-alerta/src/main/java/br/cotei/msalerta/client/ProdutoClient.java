@@ -12,10 +12,6 @@ import tools.jackson.databind.json.JsonMapper;
 import java.time.Duration;
 import java.util.Optional;
 
-/**
- * Comunicacao sincrona (REST) com o ms-produto, fonte da verdade do catalogo.
- * Em Kubernetes a URL usa o nome do Service: http://ms-produto:8080/produto
- */
 @Component
 public class ProdutoClient {
 

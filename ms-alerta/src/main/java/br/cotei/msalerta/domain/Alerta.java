@@ -10,10 +10,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-/**
- * "Me avise quando este produto custar ate X."
- * Disparo unico: ao ser atingido, o alerta e desativado.
- */
+/** Disparo unico: ao ser atingido, o alerta e desativado. */
 @Entity
 @Table(name = "alertas")
 public class Alerta {

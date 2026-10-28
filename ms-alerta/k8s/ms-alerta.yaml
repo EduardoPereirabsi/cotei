@@ -1,6 +1,3 @@
-# ms-alerta: alertas de preco (Java / Spring Boot / PostgreSQL).
-# RabbitMQ: consome oferta.atualizada pela fila PROPRIA (alerta.oferta-atualizada).
-# REST:     consulta o ms-produto para validar alertas e montar o aviso.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

@@ -13,10 +13,6 @@ import tools.jackson.databind.json.JsonMapper;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * Consome oferta.atualizada e confere os alertas de preco.
- * O envio do aviso e simulado no log; a notificacao fica gravada para consulta.
- */
 @Component
 public class OfertaAtualizadaListener {
 

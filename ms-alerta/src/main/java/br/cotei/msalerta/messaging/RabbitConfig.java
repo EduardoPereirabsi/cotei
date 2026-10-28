@@ -7,10 +7,6 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-/**
- * O ms-alerta tem a PROPRIA fila no exchange fanout cotei.ofertas.
- * Por isso recebe todos os eventos, independentemente do ms-loja.
- */
 @Configuration
 public class RabbitConfig {
 
