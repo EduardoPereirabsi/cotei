@@ -29,12 +29,12 @@ spec:
           #     service:
           #       name: ms-coletor
           #       port: {number: 8080}
-          # - path: /avaliacao
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: ms-avaliacao
-          #       port: {number: 8080}
+          - path: /avaliacao
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-avaliacao
+                port: {number: 8080}
           # - path: /alerta
           #   pathType: Prefix
           #   backend:
