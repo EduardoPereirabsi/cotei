@@ -43,13 +43,12 @@ fila deste serviço — os dois consumidores recebem **todos** os eventos, sem d
 **REST.** Consulta `GET http://ms-produto:8080/produto/produtos/{id}` para validar o
 produto ao criar o alerta (404 vira **422**) e para montar a mensagem do aviso.
 
-## Demonstração (pelo Swagger ou curl)
+## Exemplo
 
-1. Crie dois alertas para o produto 1: Maria com alvo **R$ 2.500** e João com **R$ 3.000**.
-2. Publique ofertas pelo `ms-coletor` (`POST /coletor/ofertas`) e acompanhe
-   `kubectl logs deployment/ms-alerta`:
+Com dois alertas para o produto 1 — Maria com alvo **R$ 2.500** e João com **R$ 3.000** —,
+esta sequência de ofertas publicadas pelo `ms-coletor` (`POST /coletor/ofertas`) produz:
 
-| Oferta publicada | Resultado | Regra demonstrada |
+| Oferta publicada | Resultado | Regra |
 |---|---|---|
 | Alfa R$ 3.199,90 | nada | acima dos dois alvos |
 | Gama R$ 1.999, `"disponivel": false` | nada | sem estoque não dispara |
@@ -57,9 +56,8 @@ produto ao criar o alerta (404 vira **422**) e para montar a mensagem do aviso.
 | Alfa R$ 2.399,90 | dispara **Maria** | alvo atingido |
 | Gama R$ 2.199 | nada | disparo único |
 
-3. Mostre `kubectl logs deployment/ms-loja`: os **mesmos** eventos foram processados lá,
-   ao mesmo tempo — é o fanout.
-4. `GET /alerta/notificacoes` traz os dois avisos.
+Depois, `GET /alerta/notificacoes` traz os dois avisos. O `ms-loja` recebe os mesmos
+cinco eventos pela própria fila.
 
 ## Build e implantação
 
