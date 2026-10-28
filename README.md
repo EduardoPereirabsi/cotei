@@ -96,6 +96,7 @@ do Learner Lab configuradas:
 ```bash
 .\aws\criar-cluster.ps1
 .\aws\implantar-cotei.ps1
+.\aws\validar-cotei.ps1
 .\aws\apagar-cluster.ps1
 ```
 
@@ -113,4 +114,4 @@ do Learner Lab configuradas:
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
 | Ingress | `k8s/ingress.yaml` | ✓ os cinco serviços |
-| Amazon EKS | `aws/` e [docs/EKS.md](docs/EKS.md) | scripts prontos, configuração validada; ensaio pendente |
+| Amazon EKS | `aws/` e [docs/EKS.md](docs/EKS.md) | ensaio completo em 27/10/2026: todas as rubricas validadas no cluster real |
