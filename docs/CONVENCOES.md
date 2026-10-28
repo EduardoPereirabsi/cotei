@@ -113,6 +113,5 @@ fila *daquele* serviço, o que está certo.
 
 ## 5. Git
 
-Cada integrante **commita do próprio GitHub**, dentro da pasta do seu serviço. A
-participação individual é critério de avaliação, e o histórico é a evidência dela.
+Cada integrante **commita do próprio GitHub**, dentro da pasta do seu serviço.
 Mudanças em `k8s/` e `docs/` (partes comuns) devem ser combinadas com o grupo antes.

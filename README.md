@@ -114,4 +114,4 @@ do Learner Lab configuradas:
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
 | Ingress | `k8s/ingress.yaml` | ✓ os cinco serviços |
-| Amazon EKS | `aws/` e [docs/EKS.md](docs/EKS.md) | ensaio completo em 27/10/2026: todas as rubricas validadas no cluster real |
+| Amazon EKS | `aws/` e [docs/EKS.md](docs/EKS.md) | ✓ implantado e validado em 27/10/2026 |

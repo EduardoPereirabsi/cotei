@@ -1,13 +1,13 @@
 # Implantação no Amazon EKS
 
-Roteiro para subir o Cotei no EKS do AWS Academy, validar as rubricas e apagar tudo.
-São quatro scripts em `aws/`; os tempos foram medidos no ensaio de 27/10/2026:
+Roteiro para subir o Cotei no EKS do AWS Academy, validar a implantação e apagar tudo.
+São quatro scripts em `aws/`; os tempos foram medidos na primeira implantação, em 27/10/2026:
 
 | Script | O que faz | Tempo |
 |---|---|---|
 | `criar-cluster.ps1` | descobre as roles do Academy e cria o cluster com o `eksctl` | ~16 min |
 | `implantar-cotei.ps1` | Ingress Controller, RabbitMQ, bancos, serviços e Ingress, nessa ordem | ~5 min |
-| `validar-cotei.ps1` | imprime a evidência de cada rubrica, passando pelo Load Balancer | ~1 min |
+| `validar-cotei.ps1` | testa a implantação de ponta a ponta, pelo Load Balancer | ~1 min |
 | `apagar-cluster.ps1` | remove o Load Balancer e depois o cluster | ~15 min |
 
 ## Custo
@@ -53,24 +53,23 @@ Na raiz do repositório:
 O `-DryRun` só valida a configuração, sem custo. O último script imprime os endereços
 públicos — o DNS do Load Balancer pode levar de 1 a 3 minutos para responder.
 
-## Validar (as evidências de cada rubrica)
+## Validar
 
 ```bash
 .\aws\validar-cotei.ps1
 ```
 
-O script cadastra um produto novo e repete, pelo endereço público, a demonstração inteira:
-bancos, distribuição dos pods, balanceamento, Service Discovery, REST e o fanout do
-RabbitMQ. No ensaio, tudo passou de primeira: 15 chamadas a `/produto/instance` se
-dividiram em 5/5/5 entre as três réplicas, e os avisos de João e Maria dispararam como
-na tabela do [ms-alerta/README.md](../ms-alerta/README.md).
+O script cadastra um produto novo e testa, pelo endereço público, os bancos, a
+distribuição dos pods, o balanceamento, o Service Discovery, o REST e o fanout do
+RabbitMQ. Na primeira implantação, 15 chamadas a `/produto/instance` se dividiram em
+5/5/5 entre as três réplicas, e os alertas dispararam conforme as regras do
+[ms-alerta](../ms-alerta/README.md).
 
-No dia da apresentação, rode com `-SemDados`: só as conferências de leitura, para a
-demonstração começar com os bancos vazios.
+Com `-SemDados`, o script faz só as conferências de leitura e não grava nada nos bancos.
 
-Os comandos abaixo são as mesmas evidências, uma a uma, para mostrar ao vivo.
+Para conferir manualmente:
 
-**R1 — serviços, linguagens e bancos.**
+**Serviços e bancos.**
 
 ```bash
 kubectl get deployments
@@ -79,7 +78,7 @@ kubectl exec deploy/postgres-loja -- psql -U postgres -l
 kubectl exec deploy/mongo-avaliacao -- mongosh --quiet --eval "db.adminCommand({listDatabases:1}).databases.map(d=>d.name)"
 ```
 
-**R2 — EKS, Service Discovery, Ingress e balanceamento.**
+**Nós, Service Discovery e balanceamento.**
 
 ```bash
 kubectl get nodes -o wide
@@ -96,9 +95,8 @@ kubectl exec teste -- curl -s http://ms-produto:8080/produto/produtos
 No navegador, `http://<load-balancer>/produto/instance` com recargas sucessivas mostra
 réplicas diferentes respondendo.
 
-**R3 — REST e RabbitMQ num fluxo funcional.** Siga a demonstração do
-[ms-alerta/README.md](../ms-alerta/README.md): cadastre alertas, publique ofertas pelo
-`POST /coletor/ofertas` e mostre os logs:
+**REST e RabbitMQ.** Cadastre alertas no `ms-alerta`, publique ofertas pelo
+`POST /coletor/ofertas` e acompanhe os logs dos dois consumidores:
 
 ```bash
 kubectl logs deployment/ms-loja --tail=20
@@ -114,15 +112,6 @@ kubectl logs deployment/ms-alerta --tail=20
 Ele pede para digitar `APAGAR`, remove o Load Balancer antes do cluster e, no fim,
 confere se sobrou algum cluster ou balanceador cobrando.
 
-## No dia da apresentação
-
-| Quando | O quê |
-|---|---|
-| ~1 h antes | iniciar o Learner Lab, colar as credenciais, `criar-cluster.ps1` |
-| ~40 min antes | `implantar-cotei.ps1` e `validar-cotei.ps1 -SemDados` |
-| durante | apresentação |
-| logo depois | `apagar-cluster.ps1` |
-
 ## Problemas comuns
 
 | Sintoma | Causa provável |
@@ -130,7 +119,7 @@ confere se sobrou algum cluster ou balanceador cobrando.
 | `Unable to locate credentials` ou `ExpiredToken` | sessão do lab encerrada; cole o bloco novo |
 | `O contexto atual nao e o cluster cotei` | rode `aws eks update-kubeconfig --region us-east-1 --name cotei` |
 | endereço do Load Balancer não abre | DNS ainda propagando; aguarde 1 a 3 minutos. Se você tentou antes da hora, o Windows guarda a falha em cache: `ipconfig /flushdns` |
-| pod em `Pending` | falta de capacidade nos nós: `kubectl describe pod <nome>`. No ensaio, os 21 pods ocuparam 71% e 48% da memória dos dois nós: dá para subir réplicas extras do `ms-produto` ao vivo, mas não muitas |
+| pod em `Pending` | falta de capacidade nos nós: `kubectl describe pod <nome>`. Com os 21 pods do Cotei, a memória dos dois nós fica em torno de 71% e 48%: há folga para poucas réplicas extras |
 
 ## Diferenças em relação ao Minikube
 
