@@ -84,14 +84,14 @@ O roteiro do Amazon EKS entra aqui após o Lab 06.
 
 | Requisito | Onde é atendido | Situação |
 |---|---|---|
-| Um microsserviço por integrante | tabela de serviços acima | 1 de 5 |
+| Um microsserviço por integrante | tabela de serviços acima | 2 de 5 |
 | Duas linguagens | Java + Python + TypeScript | só Java |
-| Dois SGBDs | MySQL + PostgreSQL + MongoDB | só MySQL |
-| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto` ✓ |
-| Database per Service | um banco por serviço, acessado pelo seu Service | `ms-produto` ✓ |
-| Comunicação síncrona (REST) | `ms-loja` e `ms-alerta` → `ms-produto` | pendente |
-| Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` | broker pronto, fluxo pendente |
+| Dois SGBDs | MySQL + PostgreSQL + MongoDB | ✓ MySQL + PostgreSQL |
+| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto`, `ms-loja` ✓ |
+| Database per Service | um banco por serviço, acessado pelo seu Service | `ms-produto`, `ms-loja` ✓ |
+| Comunicação síncrona (REST) | `ms-loja` e `ms-alerta` → `ms-produto` | ✓ `ms-loja` → `ms-produto` |
+| Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` | consumidor `ms-loja` ✓, publicador `ms-coletor` pendente |
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
-| Ingress | `k8s/ingress.yaml` | `ms-produto` ✓ |
+| Ingress | `k8s/ingress.yaml` | `ms-produto`, `ms-loja` ✓ |
 | Amazon EKS | — | pendente (Lab 06) |
