@@ -37,12 +37,7 @@ public class OfertaService {
                 .min(Comparator.comparing(Oferta::getPrecoTotal));
     }
 
-    /**
-     * Registra ou atualiza a oferta de uma loja para um produto.
-     * Usado tanto pela API REST quanto pelo consumidor do evento oferta.atualizada.
-     *
-     * @throws ProdutoInexistenteException se o ms-produto nao conhece o produto
-     */
+    /** Chamado pela API REST e pelo consumidor do evento. */
     @Transactional
     public Oferta registrar(Long produtoId, String loja, BigDecimal preco, BigDecimal frete,
                             boolean disponivel, String url, Instant coletadoEm) {

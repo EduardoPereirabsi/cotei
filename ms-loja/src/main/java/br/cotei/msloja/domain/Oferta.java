@@ -11,10 +11,7 @@ import jakarta.persistence.UniqueConstraint;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-/**
- * Oferta de um produto em uma loja parceira.
- * A mesma loja so tem uma oferta por produto: uma nova coleta atualiza a existente.
- */
+/** Uma oferta por (produto, loja): uma nova coleta atualiza a existente. */
 @Entity
 @Table(name = "ofertas", uniqueConstraints = @UniqueConstraint(columnNames = {"produto_id", "loja"}))
 public class Oferta {

@@ -9,10 +9,6 @@ import org.springframework.web.client.RestClientException;
 
 import java.time.Duration;
 
-/**
- * Comunicacao sincrona (REST) com o ms-produto, fonte da verdade do catalogo.
- * Em Kubernetes a URL usa o nome do Service: http://ms-produto:8080/produto
- */
 @Component
 public class ProdutoClient {
 
@@ -28,10 +24,6 @@ public class ProdutoClient {
                 .build();
     }
 
-    /**
-     * @return true se o produto existe, false se o ms-produto respondeu 404
-     * @throws ProdutoIndisponivelException se nao foi possivel consultar o ms-produto
-     */
     public boolean existe(Long produtoId) {
         try {
             rest.get().uri("/produtos/{id}", produtoId).retrieve().toBodilessEntity();

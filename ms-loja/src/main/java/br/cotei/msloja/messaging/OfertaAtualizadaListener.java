@@ -12,15 +12,6 @@ import org.springframework.stereotype.Component;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.json.JsonMapper;
 
-/**
- * Consome oferta.atualizada e registra a oferta.
- * Antes de gravar, valida o produto no ms-produto por REST: um unico fluxo
- * demonstra a comunicacao assincrona (RabbitMQ) e a sincrona (REST).
- *
- * Mensagens que nao podem ser processadas sao descartadas com log
- * (spring.rabbitmq.listener.simple.default-requeue-rejected=false),
- * para nao entrarem em laco infinito de reentrega.
- */
 @Component
 public class OfertaAtualizadaListener {
 

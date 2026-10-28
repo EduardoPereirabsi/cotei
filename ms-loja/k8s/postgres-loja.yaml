@@ -1,4 +1,3 @@
-# Banco exclusivo do ms-loja (Database per Service) - PostgreSQL.
 apiVersion: apps/v1
 kind: Deployment
 metadata:

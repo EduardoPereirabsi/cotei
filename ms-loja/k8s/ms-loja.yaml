@@ -1,6 +1,3 @@
-# ms-loja: lojas parceiras e ofertas (Java / Spring Boot / PostgreSQL).
-# REST:     consulta o ms-produto para validar o produto de cada oferta.
-# RabbitMQ: consome oferta.atualizada (fila loja.oferta-atualizada).
 apiVersion: apps/v1
 kind: Deployment
 metadata:
