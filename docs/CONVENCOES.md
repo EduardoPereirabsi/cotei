@@ -10,9 +10,9 @@ semana de correção.
 |---|---|---|---|---|---|
 | `ms-produto`   | Eduardo     | Java (Spring Boot) | MySQL      | `/produto`   | `ms-produto:8080` |
 | `ms-loja`      | Patrick     | Java (Spring Boot) | PostgreSQL | `/loja`      | `ms-loja:8080` |
-| `ms-coletor`   | a definir   | Python (FastAPI)   | —          | `/coletor`   | `ms-coletor:8080` |
+| `ms-coletor`   | Roberto     | Python (FastAPI)   | —          | `/coletor`   | `ms-coletor:8080` |
 | `ms-avaliacao` | Bruno       | TypeScript (Express) | MongoDB  | `/avaliacao` | `ms-avaliacao:8080` |
-| `ms-alerta`    | a definir   | Java ou Python     | PostgreSQL | `/alerta`    | `ms-alerta:8080` |
+| `ms-alerta`    | mathfraiz   | Java ou Python     | PostgreSQL | `/alerta`    | `ms-alerta:8080` |
 
 A N2 exige **ao menos duas linguagens e dois SGBDs**. Esta distribuição cumpre com folga;
 se mudarem, confiram que a regra continua atendida.

@@ -36,9 +36,9 @@ no **Amazon EKS**.
 |---|---|---|
 | `ms-produto`   | Catálogo canônico: nome, marca, categoria, EAN | Eduardo |
 | `ms-loja`      | Lojas parceiras e suas ofertas (preço, frete, disponibilidade) | Patrick |
-| `ms-coletor`   | Coleta ofertas de fontes simuladas e publica `oferta.atualizada` | a definir |
+| `ms-coletor`   | Coleta ofertas de fontes simuladas e publica `oferta.atualizada` | Roberto |
 | `ms-avaliacao` | Avaliações de usuários e nota agregada por produto | Bruno |
-| `ms-alerta`    | Usuário acompanha um produto com preço-alvo e é avisado na queda | a definir |
+| `ms-alerta`    | Usuário acompanha um produto com preço-alvo e é avisado na queda | mathfraiz |
 
 Linguagens, bancos, portas e contratos estão em [docs/CONVENCOES.md](docs/CONVENCOES.md).
 **Leia antes de começar o seu serviço.**
@@ -84,14 +84,14 @@ O roteiro do Amazon EKS entra aqui após o Lab 06.
 
 | Requisito | Onde é atendido | Situação |
 |---|---|---|
-| Um microsserviço por integrante | tabela de serviços acima | 3 de 5 |
-| Duas linguagens | Java + Python + TypeScript | ✓ Java + TypeScript |
+| Um microsserviço por integrante | tabela de serviços acima | 4 de 5 |
+| Duas linguagens | Java + Python + TypeScript | ✓ Java + TypeScript + Python |
 | Dois SGBDs | MySQL + PostgreSQL + MongoDB | ✓ MySQL + PostgreSQL + MongoDB |
-| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
+| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto`, `ms-loja`, `ms-avaliacao`, `ms-coletor` ✓ |
 | Database per Service | um banco por serviço, acessado pelo seu Service | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
 | Comunicação síncrona (REST) | `ms-loja`, `ms-avaliacao` e `ms-alerta` → `ms-produto` | ✓ `ms-loja` e `ms-avaliacao` → `ms-produto` |
-| Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` | consumidor `ms-loja` ✓, publicador `ms-coletor` pendente |
+| Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` | ✓ `ms-coletor` → `ms-loja`; `ms-alerta` pendente |
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
-| Ingress | `k8s/ingress.yaml` | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
+| Ingress | `k8s/ingress.yaml` | `ms-produto`, `ms-loja`, `ms-avaliacao`, `ms-coletor` ✓ |
 | Amazon EKS | — | pendente (Lab 06) |
