@@ -61,7 +61,7 @@ segue de forma assíncrona nos consumidores.
 ## Build e implantação
 
 ```bash
-docker build -t eduardo1112/ms-coletor:0.1.1 .
-docker push eduardo1112/ms-coletor:0.1.1
+docker build -t eduardo1112/ms-coletor:0.1.2 .
+docker push eduardo1112/ms-coletor:0.1.2
 kubectl apply -f k8s/
 ```

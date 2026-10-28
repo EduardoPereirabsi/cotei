@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: ms-coletor
-          image: eduardo1112/ms-coletor:0.1.1
+          image: eduardo1112/ms-coletor:0.1.2
           ports:
             - containerPort: 8080
           env:
