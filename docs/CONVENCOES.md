@@ -59,8 +59,8 @@ GET http://ms-produto:8080/produto/produtos/{id}
 404 → produto inexistente
 ```
 
-Consumidores: `ms-loja` (valida o produto antes de registrar uma oferta) e `ms-alerta`
-(busca o nome do produto para montar o aviso).
+Consumidores: `ms-loja` (valida o produto antes de registrar uma oferta), `ms-avaliacao`
+(valida antes de registrar uma avaliação) e `ms-alerta` (busca o nome do produto para montar o aviso).
 
 ### RabbitMQ — evento `oferta.atualizada`
 

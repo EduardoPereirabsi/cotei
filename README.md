@@ -27,7 +27,7 @@ no **Amazon EKS**.
                  |             v                            |
                  +------ RabbitMQ (exchange fanout) ---------+
 
- REST síncrono:  ms-loja ──► ms-produto      ms-alerta ──► ms-produto
+ REST síncrono:  ms-loja, ms-avaliacao e ms-alerta ──► ms-produto
 ```
 
 ## Serviços
@@ -45,8 +45,8 @@ Linguagens, bancos, portas e contratos estão em [docs/CONVENCOES.md](docs/CONVE
 
 ## Fluxos integrados
 
-**Síncrono (REST).** Ao registrar uma oferta, o `ms-loja` consulta
-`GET ms-produto:8080/produto/produtos/{id}` para validar o produto.
+**Síncrono (REST).** Ao registrar uma oferta ou uma avaliação, o `ms-loja` e o
+`ms-avaliacao` consultam `GET ms-produto:8080/produto/produtos/{id}` para validar o produto.
 
 **Assíncrono (RabbitMQ).** O `ms-coletor` publica `oferta.atualizada` no exchange
 fanout `cotei.ofertas`. O `ms-loja` grava a oferta; o `ms-alerta` confere se o preço
@@ -84,14 +84,14 @@ O roteiro do Amazon EKS entra aqui após o Lab 06.
 
 | Requisito | Onde é atendido | Situação |
 |---|---|---|
-| Um microsserviço por integrante | tabela de serviços acima | 2 de 5 |
-| Duas linguagens | Java + Python + TypeScript | só Java |
-| Dois SGBDs | MySQL + PostgreSQL + MongoDB | ✓ MySQL + PostgreSQL |
-| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto`, `ms-loja` ✓ |
-| Database per Service | um banco por serviço, acessado pelo seu Service | `ms-produto`, `ms-loja` ✓ |
-| Comunicação síncrona (REST) | `ms-loja` e `ms-alerta` → `ms-produto` | ✓ `ms-loja` → `ms-produto` |
+| Um microsserviço por integrante | tabela de serviços acima | 3 de 5 |
+| Duas linguagens | Java + Python + TypeScript | ✓ Java + TypeScript |
+| Dois SGBDs | MySQL + PostgreSQL + MongoDB | ✓ MySQL + PostgreSQL + MongoDB |
+| Conteinerização | Dockerfile em cada `ms-*` | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
+| Database per Service | um banco por serviço, acessado pelo seu Service | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
+| Comunicação síncrona (REST) | `ms-loja`, `ms-avaliacao` e `ms-alerta` → `ms-produto` | ✓ `ms-loja` e `ms-avaliacao` → `ms-produto` |
 | Comunicação assíncrona (RabbitMQ) | `oferta.atualizada` | consumidor `ms-loja` ✓, publicador `ms-coletor` pendente |
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
-| Ingress | `k8s/ingress.yaml` | `ms-produto`, `ms-loja` ✓ |
+| Ingress | `k8s/ingress.yaml` | `ms-produto`, `ms-loja`, `ms-avaliacao` ✓ |
 | Amazon EKS | — | pendente (Lab 06) |
