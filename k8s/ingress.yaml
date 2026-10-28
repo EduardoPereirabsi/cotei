@@ -17,12 +17,12 @@ spec:
               service:
                 name: ms-produto
                 port: {number: 8080}
-          # - path: /loja
-          #   pathType: Prefix
-          #   backend:
-          #     service:
-          #       name: ms-loja
-          #       port: {number: 8080}
+          - path: /loja
+            pathType: Prefix
+            backend:
+              service:
+                name: ms-loja
+                port: {number: 8080}
           # - path: /coletor
           #   pathType: Prefix
           #   backend:
