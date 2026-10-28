@@ -1,6 +1,10 @@
 # Broker de mensagens compartilhado pela solucao (base: Lab 07).
 # AMQP em rabbitmq:5672 | painel em rabbitmq:15672
 # Credenciais apenas didaticas.
+#
+# Armazenamento efemero (emptyDir), como os bancos: no EKS um PVC exigiria o
+# driver EBS CSI, que o AWS Academy nao permite configurar. Consequencia: se o
+# pod do RabbitMQ for recriado, mensagens ainda nao consumidas se perdem.
 apiVersion: v1
 kind: Secret
 metadata:
@@ -9,16 +13,6 @@ type: Opaque
 stringData:
   username: cotei
   password: cotei-lab
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: rabbitmq-data
-spec:
-  accessModes: [ReadWriteOnce]
-  resources:
-    requests:
-      storage: 1Gi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -64,7 +58,7 @@ spec:
             limits: {memory: 768Mi}
       volumes:
         - name: data
-          persistentVolumeClaim: {claimName: rabbitmq-data}
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

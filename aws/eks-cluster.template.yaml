@@ -1,0 +1,38 @@
+# Cluster EKS do Cotei para o AWS Academy Learner Lab (base: Back L06).
+#
+# Nao edite os ARNs aqui. O script criar-cluster.ps1 descobre as roles do
+# Academy na conta logada e gera aws/eks-cluster.generated.yaml. Assim o mesmo
+# arquivo funciona na conta de qualquer integrante.
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cotei
+  region: us-east-1
+  version: "1.37"
+
+# Zonas fixas: deixar o eksctl sortear pode cair numa zona em que o plano de
+# controle do EKS nao e oferecido, e a criacao falha depois de varios minutos.
+availabilityZones: ["us-east-1a", "us-east-1b"]
+
+# Sem NAT Gateway: os nos ficam nas subnets publicas e baixam as imagens do
+# Docker Hub diretamente. Economiza o orcamento do Learner Lab.
+vpc:
+  nat:
+    gateway: Disable
+
+# O AWS Academy nao permite criar roles IAM: usamos as que ele ja fornece.
+iam:
+  serviceRoleARN: "__CLUSTER_ROLE_ARN__"
+
+managedNodeGroups:
+  - name: cotei-nodes
+    instanceType: t3.medium
+    # Disco de 20 GB por no (o padrao do eksctl e 80): as imagens do Cotei somam
+    # pouco mais de 2 GB, e disco tambem e cobrado enquanto o cluster existe.
+    volumeSize: 20
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 2
+    iam:
+      instanceRoleARN: "__NODE_ROLE_ARN__"

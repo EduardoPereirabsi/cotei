@@ -57,6 +57,8 @@ atingiu o alvo de algum usuário. Os dois recebem **todos** os eventos, cada um 
 ```
 cotei/
 ├── docs/CONVENCOES.md    convenções e contratos entre serviços
+├── docs/EKS.md           roteiro de implantação no Amazon EKS
+├── aws/                  cluster EKS: configuração e scripts
 ├── k8s/                  infraestrutura comum
 │   ├── rabbitmq.yaml
 │   └── ingress.yaml
@@ -86,7 +88,16 @@ Cada serviço publica sua documentação sob o próprio prefixo: `/produto/swagg
 As imagens estão publicadas no Docker Hub (`eduardo1112/ms-*`), então os mesmos manifestos servem
 para o Minikube e para o EKS.
 
-O roteiro do Amazon EKS entra aqui após o Lab 06.
+## Como subir (Amazon EKS)
+
+O roteiro completo está em [docs/EKS.md](docs/EKS.md). Em resumo, com as credenciais
+do Learner Lab configuradas:
+
+```bash
+.\aws\criar-cluster.ps1
+.\aws\implantar-cotei.ps1
+.\aws\apagar-cluster.ps1
+```
 
 ## Requisitos da N2
 
@@ -102,4 +113,4 @@ O roteiro do Amazon EKS entra aqui após o Lab 06.
 | Service Discovery | URLs internas por nome de Service | ✓ |
 | Escalabilidade horizontal | `ms-produto` com 3 réplicas + `/produto/instance` | ✓ |
 | Ingress | `k8s/ingress.yaml` | ✓ os cinco serviços |
-| Amazon EKS | — | pendente (Lab 06) |
+| Amazon EKS | `aws/` e [docs/EKS.md](docs/EKS.md) | scripts prontos, configuração validada; ensaio pendente |

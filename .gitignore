@@ -20,3 +20,6 @@ Thumbs.db
 
 # Variaveis locais
 .env
+
+# Gerado pelo aws/criar-cluster.ps1 com os ARNs da conta logada
+aws/eks-cluster.generated.yaml
