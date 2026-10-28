@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: ms-avaliacao
-          image: ms-avaliacao:0.1.0
-          imagePullPolicy: IfNotPresent
+          image: eduardo1112/ms-avaliacao:0.1.0
           ports:
             - containerPort: 8080
           env:

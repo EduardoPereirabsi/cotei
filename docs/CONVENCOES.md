@@ -41,8 +41,9 @@ alheio, pede por REST ou recebe por evento.
 que o contêiner inicia, com a aplicação ainda subindo. Vimos isso derrubar requisições
 na N1 e no Lab 07. Use um GET barato do próprio serviço.
 
-**Imagem com versão, nunca `latest`.** Cada integrante publica no próprio Docker Hub e
-referencia a tag exata no manifesto (ex.: `fulano/ms-loja:1.0.0`).
+**Imagem com versão, nunca `latest`.** As imagens são publicadas e públicas no Docker Hub,
+em `eduardo1112/<serviço>:<versão>`, e o manifesto referencia a tag exata. Publicar uma
+mudança é gerar uma versão nova e atualizar a tag no manifesto.
 
 **Service Discovery: só nomes.** Chamadas internas usam o nome do Service —
 `http://ms-produto:8080/produto/produtos/1` — nunca IP de pod.

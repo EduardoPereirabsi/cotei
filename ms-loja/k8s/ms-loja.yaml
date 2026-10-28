@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: ms-loja
-          image: ms-loja:0.1.0
-          imagePullPolicy: IfNotPresent
+          image: eduardo1112/ms-loja:0.1.0
           ports:
             - containerPort: 8080
           env:

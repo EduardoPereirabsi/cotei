@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: ms-alerta
-          image: ms-alerta:0.1.1
-          imagePullPolicy: IfNotPresent
+          image: eduardo1112/ms-alerta:0.1.1
           ports:
             - containerPort: 8080
           env:

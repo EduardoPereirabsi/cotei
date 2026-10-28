@@ -61,6 +61,7 @@ segue de forma assíncrona nos consumidores.
 ## Build e implantação
 
 ```bash
-minikube image build -t ms-coletor:0.1.1 .
+docker build -t eduardo1112/ms-coletor:0.1.1 .
+docker push eduardo1112/ms-coletor:0.1.1
 kubectl apply -f k8s/
 ```

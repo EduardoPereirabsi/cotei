@@ -61,6 +61,7 @@ isso o build da imagem pula os testes:
 
 ```bash
 ./mvnw clean package -DskipTests
-minikube image build -t ms-loja:0.1.0 .
+docker build -t eduardo1112/ms-loja:0.1.0 .
+docker push eduardo1112/ms-loja:0.1.0
 kubectl apply -f k8s/
 ```

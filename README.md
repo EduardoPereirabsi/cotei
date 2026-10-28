@@ -83,7 +83,8 @@ kubectl port-forward -n ingress-nginx service/ingress-nginx-controller 80:80
 Cada serviço publica sua documentação sob o próprio prefixo: `/produto/swagger-ui/index.html`,
 `/loja/swagger-ui/index.html`, `/avaliacao/docs`, `/coletor/docs` e `/alerta/swagger-ui/index.html`.
 
-As imagens locais são construídas com `minikube image build` dentro de cada pasta (ver o README de cada serviço).
+As imagens estão publicadas no Docker Hub (`eduardo1112/ms-*`), então os mesmos manifestos servem
+para o Minikube e para o EKS.
 
 O roteiro do Amazon EKS entra aqui após o Lab 06.
 

@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: ms-coletor
-          image: ms-coletor:0.1.1
-          imagePullPolicy: IfNotPresent
+          image: eduardo1112/ms-coletor:0.1.1
           ports:
             - containerPort: 8080
           env:

@@ -55,6 +55,7 @@ Antes de gravar, consulta `GET http://ms-produto:8080/produto/produtos/{id}`:
 ```bash
 npm install
 npm run build
-minikube image build -t ms-avaliacao:0.1.0 .
+docker build -t eduardo1112/ms-avaliacao:0.1.0 .
+docker push eduardo1112/ms-avaliacao:0.1.0
 kubectl apply -f k8s/
 ```

@@ -68,7 +68,8 @@ build pula os testes. Aplique o banco antes do serviço:
 
 ```bash
 ./mvnw clean package -DskipTests
-minikube image build -t ms-alerta:0.1.1 .
+docker build -t eduardo1112/ms-alerta:0.1.1 .
+docker push eduardo1112/ms-alerta:0.1.1
 kubectl apply -f k8s/postgres-alerta.yaml
 kubectl apply -f k8s/ms-alerta.yaml
 ```
